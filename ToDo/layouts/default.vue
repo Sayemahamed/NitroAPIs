@@ -3,13 +3,11 @@
     <nav class="bg-gray-800 py-4">
       <div class="container mx-auto px-4">
         <div class="flex justify-between">
-          <div class="items-center flex">
-            <NuxtLink to="/" class="text-white text-2xl font-bold"
-              >ToDo</NuxtLink
-            >
+          <div class="flex items-center">
+            <NuxtLink to="/" class="text-2xl font-bold text-white">ToDo</NuxtLink>
           </div>
           <div class="flex items-center">
-            <NuxtLink to="create" class="text-white text-base font-medium mr-4"
+            <NuxtLink :to="{ name: 'create' }" class="mr-4 text-base font-medium text-white"
               >create</NuxtLink
             >
           </div>
@@ -17,7 +15,7 @@
       </div>
     </nav>
   </header>
-  <main>
+  <main class="container mx-auto px-4 py-8">
     <slot></slot>
   </main>
   <footer></footer>
