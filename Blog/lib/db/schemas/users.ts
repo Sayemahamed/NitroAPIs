@@ -25,3 +25,7 @@ export const UpdateUserSchema = createUpdateSchema(models.users, {
   created_at: true,
   updated_at: true,
 })
+
+export const passwordSchema = z.object({
+  password: z.string().min(5).max(100),
+})
