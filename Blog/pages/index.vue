@@ -34,12 +34,15 @@
             {{ post.content || 'No content available' }}
           </p>
           <div class="pt-2">
-            <span class="inline-flex items-center text-sm text-blue-600 hover:underline">
+            <NuxtLink 
+              :to="`/posts/${post.id}`" 
+              class="inline-flex items-center text-sm text-blue-600 hover:underline"
+            >
               Read more
               <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
-            </span>
+            </NuxtLink>
           </div>
         </div>
       </Card>
@@ -55,13 +58,14 @@
 const { data: posts, pending, error } = await useFetch('/api/posts')
 
 const formatDate = (dateString: string) => {
-  const options: Intl.DateTimeFormatOptions = { 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
+  try {
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    }).format(new Date(dateString));
+  } catch (e) {
+    return '';
   }
-  return new Date(dateString).toLocaleDateString('en-US', options)
 }
 </script>

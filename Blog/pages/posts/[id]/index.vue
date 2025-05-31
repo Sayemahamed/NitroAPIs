@@ -70,21 +70,48 @@
 </template>
 
 <script setup lang="ts">
-import { format } from 'date-fns';
+const route = useRoute()
+const id = route.params.id as string
 
-// Auto-imports in Nuxt 3
-const route = useRoute();
-const id = route.params.id as string;
+const { data: post, pending, error } = await useFetch(`/api/posts/${id}`, {
+  onResponseError({ response }) {
+    if (response.status === 404) {
+      showError({ statusCode: 404, statusMessage: 'Post not found' })
+    }
+  }
+})
 
-const { data: post, pending, error } = await useFetch(`/api/posts/${id}`);
+// Handle 404 errors
+if (error.value) {
+  throw createError({
+    statusCode: error.value.statusCode || 500,
+    statusMessage: error.value.statusMessage || 'Failed to load post',
+    fatal: true
+  })
+}
 
 function formatDate(dateString: string) {
   try {
-    return format(new Date(dateString), 'MMMM d, yyyy');
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(new Date(dateString))
   } catch (e) {
-    return '';
+    return ''
   }
 }
+
+// Set the page title
+useHead({
+  title: post.value ? `${post.value.title} | Blog` : 'Loading...',
+  meta: [
+    {
+      name: 'description',
+      content: post.value?.content?.substring(0, 160) || 'Blog post'
+    }
+  ]
+})
 
 // Components are auto-imported in Nuxt 3
 </script>

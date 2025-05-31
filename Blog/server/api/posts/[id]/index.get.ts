@@ -2,18 +2,18 @@ import { db } from '~/lib/db'
 import { IdParamsSchema } from '~/lib/db/schemas/users'
 import { posts } from '~/lib/db/models'
 import { eq } from 'drizzle-orm'
+
 export default defineEventHandler(async (event) => {
   const result = await getValidatedRouterParams(event, IdParamsSchema.safeParseAsync)
+  
   if (!result.success) {
-    return sendError(
-      event,
-      createError({
-        statusCode: 400,
-        statusMessage: result.error.message,
-      }),
-    )
+    throw createError({
+      statusCode: 400,
+      statusMessage: result.error.message,
+    })
   }
-  const post = await db.query.posts.findMany({
+
+  const post = await db.query.posts.findFirst({
     where: eq(posts.id, result.data.id),
     columns: {
       id: true,
@@ -28,5 +28,13 @@ export default defineEventHandler(async (event) => {
       },
     },
   })
+
+  if (!post) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Post not found',
+    })
+  }
+
   return post
 })

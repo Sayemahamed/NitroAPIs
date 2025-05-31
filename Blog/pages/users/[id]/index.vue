@@ -98,11 +98,14 @@ const { data: user, pending, error } = await useFetch(`/api/users/${route.params
 const { data: posts, pending: postsPending, error: postsError } = await useFetch(`/api/users/${route.params.id}/posts`)
 
 const formatDate = (dateString: string) => {
-  const options: Intl.DateTimeFormatOptions = { 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric'
+  try {
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(new Date(dateString));
+  } catch (e) {
+    return '';
   }
-  return new Date(dateString).toLocaleDateString('en-US', options)
 }
 </script>
