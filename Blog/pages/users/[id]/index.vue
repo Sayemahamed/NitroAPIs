@@ -15,12 +15,15 @@ const { data, error } = await useFetch(`/api/users/${route.params.id}`, {
       <p class="mb-2 text-gray-700"><span class="font-semibold">Email:</span> {{ data?.email }}</p>
       <p class="mb-2 text-gray-700">
         <span class="font-semibold">Created At:</span>
-        {{ new Date(data?.created_at).toLocaleString() }}
+        {{ new Date(data?.created_at as string).toLocaleString() }}
       </p>
       <p class="text-gray-700">
         <span class="font-semibold">Updated At:</span>
-        {{ new Date(data?.updated_at).toLocaleString() }}
+        {{ new Date(data?.updated_at as string).toLocaleString() }}
       </p>
+    </div>
+    <div class="mt-4">
+      <NuxtLink :to="{ name: 'users-id-posts', params: { id: route.params.id } }">Posts</NuxtLink>
     </div>
   </div>
 </template>

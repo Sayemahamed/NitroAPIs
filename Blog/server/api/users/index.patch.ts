@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
   const user = await db
     .update(users)
     .set(result.data)
-    .where(eq(users.id, result.data.id))
+    .where(eq(users.id, result.data.id ?? ''))
     .returning({ id: users.id })
   return user
 })
