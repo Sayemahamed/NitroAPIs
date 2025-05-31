@@ -1,0 +1,108 @@
+<template>
+  <div>
+    <div v-if="pending" class="space-y-6">
+      <Card>
+        <div class="flex items-center space-x-4">
+          <Skeleton class="h-20 w-20 rounded-full" />
+          <div class="space-y-2 flex-1">
+            <Skeleton width="75%" />
+            <Skeleton width="50%" />
+            <Skeleton width="40%" />
+          </div>
+        </div>
+      </Card>
+    </div>
+
+    <Alert v-else-if="error" type="error">
+      Failed to load user. Please try again later.
+    </Alert>
+
+    <div v-else-if="user" class="space-y-8">
+      <!-- User Profile -->
+      <Card>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-4 sm:space-y-0">
+          <div class="h-20 w-20 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-2xl font-bold flex-shrink-0">
+            {{ user.name ? user.name.charAt(0).toUpperCase() : 'U' }}
+          </div>
+          <div class="space-y-1">
+            <h2 class="text-2xl font-bold text-gray-900">
+              {{ user.name || 'Anonymous User' }}
+            </h2>
+            <p class="text-gray-600">{{ user.email }}</p>
+            <p class="text-sm text-gray-500">
+              Member since {{ formatDate(user.created_at) }}
+            </p>
+          </div>
+        </div>
+      </Card>
+
+      <!-- User's Posts -->
+      <div class="space-y-6">
+        <PageHeader>
+          <template #title>Latest Posts</template>
+          <template #subtitle v-if="!postsPending && !postsError">
+            {{ posts.length }} {{ posts.length === 1 ? 'post' : 'posts' }} found
+          </template>
+        </PageHeader>
+        
+        <div v-if="postsPending" class="space-y-6">
+          <Card v-for="i in 3" :key="i">
+            <div class="space-y-3">
+              <Skeleton width="33%" />
+              <Skeleton width="66%" />
+              <Skeleton width="100%" />
+            </div>
+          </Card>
+        </div>
+
+        <Alert v-else-if="postsError" type="warning">
+          Could not load user's posts. Please try again later.
+        </Alert>
+
+        <div v-else class="space-y-4">
+          <Card v-for="post in posts" :key="post.id" :to="`/posts/${post.id}`">
+            <div class="space-y-2">
+              <h4 class="text-lg font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                {{ post.title }}
+              </h4>
+              <p class="text-sm text-gray-500">
+                Updated {{ formatDate(post.updated_at) }}
+              </p>
+            </div>
+          </Card>
+
+          <Card v-if="posts.length === 0">
+            <p class="text-center text-gray-500 py-8">No posts found.</p>
+          </Card>
+        </div>
+      </div>
+    </div>
+
+    <Card v-else>
+      <div class="text-center py-12">
+        <p class="text-gray-500 mb-4">User not found</p>
+        <NuxtLink to="/users" class="inline-flex items-center text-blue-600 hover:text-blue-800">
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to users
+        </NuxtLink>
+      </div>
+    </Card>
+  </div>
+</template>
+
+<script setup lang="ts">
+const route = useRoute()
+const { data: user, pending, error } = await useFetch(`/api/users/${route.params.id}`)
+const { data: posts, pending: postsPending, error: postsError } = await useFetch(`/api/users/${route.params.id}/posts`)
+
+const formatDate = (dateString: string) => {
+  const options: Intl.DateTimeFormatOptions = { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric'
+  }
+  return new Date(dateString).toLocaleDateString('en-US', options)
+}
+</script>

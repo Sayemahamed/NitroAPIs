@@ -9,13 +9,21 @@
               Blog
             </NuxtLink>
           </div>
-          <div class="flex items-center space-x-4">
+          <div class="flex items-center space-x-1">
             <NuxtLink 
               to="/" 
-              class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+              class="text-gray-600 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-md text-sm font-medium transition-colors"
               active-class="bg-gray-100 text-gray-900"
+              exact
             >
               Home
+            </NuxtLink>
+            <NuxtLink 
+              to="/users" 
+              class="text-gray-600 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              active-class="bg-gray-100 text-gray-900"
+            >
+              Users
             </NuxtLink>
           </div>
         </div>
