@@ -7,6 +7,7 @@ export default defineEventHandler(async (event) => {
   if (!result.success) {
     throw createError({ statusMessage: result.error.message, statusCode: 400 })
   }
+  console.log(result.data)
   result.data.password_hash = await bcrypt.hash(result.data.password_hash, 10)
   const user = await db.insert(users).values(result.data).returning({ id: users.id })
   return user
