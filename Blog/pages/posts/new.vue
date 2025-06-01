@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-3xl mx-auto">
+  <div class="max-w-2xl mx-auto">
     <PageHeader>
       <template #title>Create New Post</template>
       <template #subtitle>Share your thoughts with the world</template>
@@ -8,42 +8,46 @@
     <Card>
       <form @submit.prevent="handleSubmit" class="space-y-6">
         <div>
-          <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+          <label for="title" class="block text-sm font-medium mb-1">Title</label>
           <input
             id="title"
             v-model="formData.title"
             type="text"
             required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            :class="{ 'opacity-50 cursor-not-allowed': isSubmitting }"
             :disabled="isSubmitting"
           />
           <p v-if="errors.title" class="mt-1 text-sm text-red-600">{{ errors.title }}</p>
         </div>
 
         <div>
-          <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
+          <label for="content" class="block text-sm font-medium mb-1">Content</label>
           <textarea
             id="content"
             v-model="formData.content"
             rows="8"
             required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            :class="{ 'opacity-50 cursor-not-allowed': isSubmitting }"
             :disabled="isSubmitting"
           ></textarea>
           <p v-if="errors.content" class="mt-1 text-sm text-red-600">{{ errors.content }}</p>
         </div>
 
-        <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-100">
+        <div class="flex items-center justify-end space-x-3 pt-4 border-t">
           <NuxtLink
             to="/"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition-colors"
+            :class="{ 'opacity-50 cursor-not-allowed': isSubmitting }"
             :disabled="isSubmitting"
           >
             Cancel
           </NuxtLink>
           <button
             type="submit"
-            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+            class="px-4 py-2 text-sm text-white bg-blue-600 hover:bg-blue-700 rounded transition-colors flex items-center"
+            :class="{ 'opacity-50 cursor-not-allowed': isSubmitting }"
             :disabled="isSubmitting"
           >
             <svg v-if="isSubmitting" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
