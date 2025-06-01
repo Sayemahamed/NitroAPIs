@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div v-if="pending" class="space-y-6">
+    <div v-if="pending" class="space-y-4">
       <Card>
         <div class="flex items-center space-x-4">
-          <Skeleton class="h-20 w-20 rounded-full" />
+          <Skeleton class="h-16 w-16 rounded-full" />
           <div class="space-y-2 flex-1">
             <Skeleton width="75%" />
             <Skeleton width="50%" />
@@ -13,19 +13,19 @@
       </Card>
     </div>
 
-    <Alert v-else-if="error" type="error">
+    <div v-else-if="error" class="p-4 bg-red-50 text-red-700 rounded-lg mb-6">
       Failed to load user. Please try again later.
-    </Alert>
+    </div>
 
-    <div v-else-if="user" class="space-y-8">
+    <div v-else-if="user" class="space-y-6">
       <!-- User Profile -->
       <Card>
         <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-4 sm:space-y-0">
-          <div class="h-20 w-20 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-2xl font-bold flex-shrink-0">
+          <div class="h-16 w-16 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 text-xl font-semibold flex-shrink-0">
             {{ user.name ? user.name.charAt(0).toUpperCase() : 'U' }}
           </div>
           <div class="space-y-1">
-            <h2 class="text-2xl font-bold text-gray-900">
+            <h2 class="text-2xl font-bold">
               {{ user.name || 'Anonymous User' }}
             </h2>
             <p class="text-gray-600">{{ user.email }}</p>
@@ -37,7 +37,7 @@
       </Card>
 
       <!-- User's Posts -->
-      <div class="space-y-6">
+      <div class="space-y-4">
         <PageHeader>
           <template #title>Latest Posts</template>
           <template #subtitle v-if="!postsPending && !postsError">
@@ -45,24 +45,29 @@
           </template>
         </PageHeader>
         
-        <div v-if="postsPending" class="space-y-6">
+        <div v-if="postsPending" class="space-y-4">
           <Card v-for="i in 3" :key="i">
             <div class="space-y-3">
-              <Skeleton width="33%" />
-              <Skeleton width="66%" />
+              <Skeleton width="40%" />
+              <Skeleton width="70%" />
               <Skeleton width="100%" />
             </div>
           </Card>
         </div>
 
-        <Alert v-else-if="postsError" type="warning">
+        <div v-else-if="postsError" class="p-4 bg-yellow-50 text-yellow-700 rounded-lg">
           Could not load user's posts. Please try again later.
-        </Alert>
+        </div>
 
-        <div v-else class="space-y-4">
-          <Card v-for="post in posts" :key="post.id" :to="`/posts/${post.id}`">
-            <div class="space-y-2">
-              <h4 class="text-lg font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+        <div v-else class="space-y-3">
+          <Card 
+            v-for="post in posts" 
+            :key="post.id" 
+            :to="`/posts/${post.id}`"
+            class="hover:border-blue-200"
+          >
+            <div class="space-y-1">
+              <h4 class="font-medium hover:text-blue-600">
                 {{ post.title }}
               </h4>
               <p class="text-sm text-gray-500">
@@ -71,8 +76,8 @@
             </div>
           </Card>
 
-          <Card v-if="posts.length === 0">
-            <p class="text-center text-gray-500 py-8">No posts found.</p>
+          <Card v-if="posts.length === 0" class="text-center py-8">
+            <p class="text-gray-500">No posts found.</p>
           </Card>
         </div>
       </div>
@@ -81,7 +86,7 @@
     <Card v-else>
       <div class="text-center py-12">
         <p class="text-gray-500 mb-4">User not found</p>
-        <NuxtLink to="/users" class="inline-flex items-center text-blue-600 hover:text-blue-800">
+        <NuxtLink to="/users" class="inline-flex items-center text-blue-600 hover:underline">
           <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>

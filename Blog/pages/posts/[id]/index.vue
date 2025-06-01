@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div v-if="pending" class="space-y-6">
+    <div v-if="pending" class="space-y-4">
       <Card>
         <div class="space-y-4">
           <Skeleton width="75%" class="h-8" />
-          <Skeleton width="50%" class="h-4" />
+          <Skeleton width="40%" class="h-4" />
           <div class="pt-4 space-y-2">
             <Skeleton v-for="i in 5" :key="i" />
           </div>
@@ -12,53 +12,55 @@
       </Card>
     </div>
 
-    <Alert v-else-if="error" type="error">
+    <div v-else-if="error" class="p-4 bg-red-50 text-red-700 rounded-lg mb-6">
       Failed to load post. It may have been removed or you may not have permission to view it.
-    </Alert>
+    </div>
 
-    <Card v-else-if="post">
-      <div class="space-y-6">
-        <div>
-          <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ post.title }}</h1>
-          <div class="flex flex-wrap items-center text-sm text-gray-500 space-x-2">
-            <span>Updated {{ formatDate(post.updated_at) }}</span>
-            <span>•</span>
-            <span v-if="post.author">
-              By 
-              <NuxtLink 
-                v-if="post.author.id" 
-                :to="`/users/${post.author.id}`"
-                class="text-blue-600 hover:underline"
-              >
-                {{ post.author.name || post.author.email }}
-              </NuxtLink>
-              <span v-else>{{ post.author.name || post.author.email }}</span>
-            </span>
+    <div v-else-if="post" class="space-y-6">
+      <Card>
+        <div class="space-y-6">
+          <div>
+            <h1 class="text-3xl font-bold mb-3">{{ post.title }}</h1>
+            <div class="text-sm text-gray-500">
+              <span>Updated {{ formatDate(post.updated_at) }}</span>
+              <span v-if="post.author" class="ml-2">•</span>
+              <span v-if="post.author" class="ml-2">
+                By 
+                <NuxtLink 
+                  v-if="post.author.id" 
+                  :to="`/users/${post.author.id}`"
+                  class="text-blue-600 hover:underline"
+                >
+                  {{ post.author.name || post.author.email }}
+                </NuxtLink>
+                <span v-else>{{ post.author.name || post.author.email }}</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="prose max-w-none pt-6 border-t">
+            <p class="whitespace-pre-line">{{ post.content }}</p>
+          </div>
+
+          <div class="pt-6 border-t">
+            <NuxtLink 
+              to="/" 
+              class="inline-flex items-center text-blue-600 hover:underline"
+            >
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to all posts
+            </NuxtLink>
           </div>
         </div>
-
-        <div class="prose max-w-none text-gray-700 border-t border-gray-100 pt-6">
-          <p class="whitespace-pre-line">{{ post.content }}</p>
-        </div>
-
-        <div class="pt-6 border-t border-gray-100">
-          <NuxtLink 
-            to="/" 
-            class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"
-          >
-            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to all posts
-          </NuxtLink>
-        </div>
-      </div>
-    </Card>
+      </Card>
+    </div>
 
     <Card v-else>
       <div class="text-center py-12">
         <p class="text-gray-500 mb-4">Post not found</p>
-        <NuxtLink to="/" class="inline-flex items-center text-blue-600 hover:text-blue-800">
+        <NuxtLink to="/" class="inline-flex items-center text-blue-600 hover:underline">
           <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>

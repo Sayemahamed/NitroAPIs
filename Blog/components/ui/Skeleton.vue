@@ -1,6 +1,6 @@
 <template>
   <div 
-    class="bg-white rounded-lg shadow overflow-hidden animate-pulse"
+    class="bg-gray-100 rounded animate-pulse"
     :class="[{
       'w-full': full,
       'h-4': !full,

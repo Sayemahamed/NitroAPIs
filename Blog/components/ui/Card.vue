@@ -1,6 +1,6 @@
 <template>
   <div 
-    class="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-300"
+    class="border rounded-lg overflow-hidden hover:border-blue-200 transition-colors"
     :class="{ 'cursor-pointer': to }"
   >
     <NuxtLink v-if="to" :to="to" class="block h-full">

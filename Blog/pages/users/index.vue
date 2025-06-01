@@ -5,30 +5,28 @@
       <template #subtitle>Browse our community of writers</template>
     </PageHeader>
 
-    <div v-if="pending" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div v-if="pending" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <Card v-for="i in 3" :key="i">
         <div class="space-y-3">
           <Skeleton width="50%" />
           <Skeleton width="75%" />
-          <div class="pt-2">
-            <Skeleton width="40%" />
-          </div>
+          <Skeleton width="40%" />
         </div>
       </Card>
     </div>
 
-    <Alert v-else-if="error" type="error">
+    <div v-else-if="error" class="p-4 bg-red-50 text-red-700 rounded-lg mb-6">
       Failed to load users. Please try again later.
-    </Alert>
+    </div>
 
-    <div v-else class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div v-else class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <Card 
         v-for="user in users" 
         :key="user.id" 
         :to="`/users/${user.id}`"
       >
         <div class="space-y-2">
-          <h3 class="text-lg font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+          <h3 class="text-lg font-medium hover:text-blue-600">
             {{ user.name || 'Anonymous' }}
           </h3>
           <p class="text-sm text-gray-500 truncate">
@@ -37,7 +35,7 @@
           <div class="pt-2">
             <NuxtLink 
               :to="`/users/${user.id}`"
-              class="inline-flex items-center text-sm text-blue-600 hover:underline"
+              class="inline-flex items-center text-blue-600 hover:underline text-sm"
             >
               View profile
               <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

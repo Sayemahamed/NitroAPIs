@@ -5,25 +5,25 @@
       <template #subtitle>Discover our latest articles and updates</template>
     </PageHeader>
 
-    <div v-if="pending" class="space-y-6">
+    <div v-if="pending" class="space-y-4">
       <Card v-for="i in 3" :key="i">
         <div class="space-y-3">
-          <Skeleton width="33%" />
-          <Skeleton width="66%" />
+          <Skeleton width="40%" />
+          <Skeleton width="70%" />
           <Skeleton width="100%" />
         </div>
       </Card>
     </div>
 
-    <Alert v-else-if="error" type="error">
+    <div v-else-if="error" class="p-4 text-red-600 bg-red-50 rounded-lg">
       Failed to load posts. Please try again later.
-    </Alert>
+    </div>
 
-    <div v-else class="space-y-6">
+    <div v-else class="space-y-4">
       <Card v-for="post in posts" :key="post.id" :to="`/posts/${post.id}`">
-        <div class="space-y-3">
+        <div class="space-y-2">
           <div class="flex justify-between items-start">
-            <h2 class="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+            <h2 class="text-xl font-semibold hover:text-blue-600 transition-colors">
               {{ post.title }}
             </h2>
             <span class="text-sm text-gray-500 whitespace-nowrap ml-4">
@@ -36,7 +36,7 @@
           <div class="pt-2">
             <NuxtLink 
               :to="`/posts/${post.id}`" 
-              class="inline-flex items-center text-sm text-blue-600 hover:underline"
+              class="inline-flex items-center text-blue-600 hover:underline text-sm"
             >
               Read more
               <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
